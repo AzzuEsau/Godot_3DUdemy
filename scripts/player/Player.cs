@@ -5,13 +5,6 @@ using System.Collections.Generic;
 [Tool]
 public partial class Player : CharacterBody3D {
 	#region Variables
-		public const float Speed = 5.0f;
-		public const float JumpVelocity = 4.5f;
-
-		// Get the gravity from the project settings to be synced with RigidBody nodes.
-		public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-
-
 		#region Direction Effects
 			public Vector2 inputDirection {get; private set;}
 			public bool inputRunning {get; private set;}
@@ -25,9 +18,14 @@ public partial class Player : CharacterBody3D {
 			private PlayerIdle idleState;
 			private PlayerMoveFloor moveOnFloorState;
 		#endregion
+
+		#region Game Manager
+			private int coinsCollected = 0;
+		#endregion
 	#endregion
 
 	#region Signals
+		[Signal] public delegate void CoinCollectedEventHandler(int coins);
 	#endregion
 
 	#region Godot Methods
@@ -59,7 +57,7 @@ public partial class Player : CharacterBody3D {
 
 
     public override void _Ready() {
-        FindStateMachine();
+        FindStateMachine(); 
     }
 
     public override void _PhysicsProcess(double delta) {
@@ -73,17 +71,18 @@ public partial class Player : CharacterBody3D {
 
 	#region My Methods
 		#region Phyisics
-			public void ApplyGravity(double delta) => Velocity = new Vector3(Velocity.X, Velocity.Y - gravity * (float)delta, Velocity.Z);
+			public void ApplyGravity(double delta) => Velocity = new Vector3(Velocity.X, Velocity.Y - GameResources.Gravity * (float)delta, Velocity.Z);
 			private void ApplyLerpInput(double delta) =>  inputDirectionLerp = inputDirectionLerp.MoveToward(inputDirection, (float)delta * lerpSpeed);
-			public void ApplyHorizontalVelocity(Vector2 direction, float multiplier = 1F) {
-				direction = direction * GameResources.PlayerSpeed * multiplier;
+			public void ApplyHorizontalVelocity(Vector2 direction, double delta, float multiplier = 1F) {
+				direction = direction * GameResources.PlayerSpeed * multiplier * (float)delta;
 				Velocity = new Vector3(direction.X, Velocity.Y, direction.Y);
 			}
 		#endregion
 
 		#region Inputs
 			private void ReadInputs() {
-				inputDirection = Input.GetVector(GameResources.InputLeft, GameResources.InputRight, GameResources.InputFront, GameResources.InputBack).Normalized();
+				// inputDirection = Input.GetVector(GameResources.InputLeft, GameResources.InputRight, GameResources.InputFront, GameResources.InputBack).Normalized();
+				inputDirection = Input.GetVector(GameResources.InputFront, GameResources.InputBack, GameResources.InputRight, GameResources.InputLeft).Normalized();
 				inputRunning = Input.IsActionPressed(GameResources.InputRun);
 			}
 
@@ -99,6 +98,13 @@ public partial class Player : CharacterBody3D {
 
 			private bool CanMoveOnFloor() => isDirectionActive() && IsOnFloor();
 			private bool CanIdle() => inputDirectionLerp == Vector2.Zero && IsOnFloor();
+		#endregion
+
+		#region Game Manager
+			public void AddCoin(int value) {
+				coinsCollected += value;
+				EmitSignal(SignalName.CoinCollected, coinsCollected);
+			}
 		#endregion
 	#endregion
 

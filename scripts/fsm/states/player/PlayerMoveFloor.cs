@@ -8,6 +8,8 @@ public partial class PlayerMoveFloor : State {
 		[Export] private Player player;
 		[Export] private AnimationPlayer animationPlayer;
 		[Export] private Node3D visualNode;
+
+		[Export] private GpuParticles3D foostepVFX;
 	#endregion
 
 	#region Signals
@@ -19,7 +21,8 @@ public partial class PlayerMoveFloor : State {
 			List<string> warnings = new List<string> {
                 Helperuitilies.ValidateCheckNullValue(nameof(player), player),
                 Helperuitilies.ValidateCheckNullValue(nameof(animationPlayer), animationPlayer),
-                Helperuitilies.ValidateCheckNullValue(nameof(visualNode), visualNode)
+                Helperuitilies.ValidateCheckNullValue(nameof(visualNode), visualNode),
+                Helperuitilies.ValidateCheckNullValue(nameof(foostepVFX), foostepVFX)
             };
 
 			return Helperuitilies.ClearNullValues(warnings);
@@ -32,7 +35,7 @@ public partial class PlayerMoveFloor : State {
 		}
 
 		public override void Exit() {
-			
+			foostepVFX.Emitting = false;
 		}
 
 		public override void Update(double delta) {
@@ -42,6 +45,7 @@ public partial class PlayerMoveFloor : State {
 		public override void PhysicsUpdate(double delta) {
 			MovePlayer(delta);
 			RotatePlayer(delta);
+			PlayParticles();
     	}
     #endregion
 
@@ -51,7 +55,7 @@ public partial class PlayerMoveFloor : State {
 			if(player.inputRunning) speedMultiplier = GameResources.PlayerRunnigMultiplier;
 
 			player.ApplyGravity(delta);
-			player.ApplyHorizontalVelocity(player.inputDirectionLerp, speedMultiplier);		
+			player.ApplyHorizontalVelocity(player.inputDirectionLerp, delta, speedMultiplier);
 			player.MoveAndSlide();
 		}
 
@@ -65,6 +69,11 @@ public partial class PlayerMoveFloor : State {
 			}
 
 		}
+
+		private void PlayParticles() {
+			foostepVFX.Emitting = true;
+		}
+
 
 		private void AnimatePlayer() {
 			if(player.inputRunning) animationPlayer.Play(GameResources.AnimationPlayerRun);

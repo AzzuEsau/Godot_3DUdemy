@@ -1,10 +1,63 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0wgr7vwggfkh"]
+[gd_scene load_steps=7 format=3 uid="uid://c0wgr7vwggfkh"]
 
 [ext_resource type="PackedScene" uid="uid://xm3a5j45elv3" path="res://media/Scene/GameLevelScene.tscn" id="1_evgm2"]
 [ext_resource type="PackedScene" uid="uid://c7vb75baatbbc" path="res://prefab/player/Player.tscn" id="2_k3xlt"]
+[ext_resource type="PackedScene" uid="uid://boboo0dgcewqg" path="res://prefab/collectable/Coin.tscn" id="3_sjxxa"]
+[ext_resource type="Texture2D" uid="uid://byo4gdwy76yce" path="res://media/UI/Coin.png" id="4_23d86"]
+[ext_resource type="Script" path="res://scripts/ui/UIManager.cs" id="4_jd5ra"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_csyfu"]
+font_size = 50
+font_color = Color(1, 0.929412, 0.192157, 1)
 
 [node name="GameScene" type="Node3D"]
 
 [node name="Level" parent="." instance=ExtResource("1_evgm2")]
 
+[node name="Collectables" type="Node3D" parent="."]
+
+[node name="Coin" parent="Collectables" instance=ExtResource("3_sjxxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="Coin2" parent="Collectables" instance=ExtResource("3_sjxxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
+
+[node name="Coin3" parent="Collectables" instance=ExtResource("3_sjxxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14)
+
 [node name="Player" parent="." instance=ExtResource("2_k3xlt")]
+
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("coinsLabel", "player")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_jd5ra")
+coinsLabel = NodePath("HBoxContainerCoin/LabelCoin")
+player = NodePath("../Player")
+
+[node name="HBoxContainerCoin" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -232.0
+offset_top = 20.0
+offset_right = -32.0
+offset_bottom = 92.0
+grow_horizontal = 0
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="LabelCoin" type="Label" parent="Control/HBoxContainerCoin"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_csyfu")
+
+[node name="CoinIcon" type="TextureRect" parent="Control/HBoxContainerCoin"]
+modulate = Color(1, 0.929412, 0.192157, 1)
+layout_mode = 2
+texture = ExtResource("4_23d86")
+expand_mode = 2
