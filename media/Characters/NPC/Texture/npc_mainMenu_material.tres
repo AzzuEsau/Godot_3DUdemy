@@ -1,10 +1,10 @@
 [gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://ce05yvnrx7c4c"]
 
-[ext_resource type="Texture2D" uid="uid://devc6o43ofdij" path="res://Asset/Characters/NPC/Texture/Base.png" id="1_ipdtc"]
-[ext_resource type="Texture2D" uid="uid://cs7ne6cy8d3tu" path="res://Asset/Characters/NPC/Texture/AO.png" id="2_7sgtd"]
-[ext_resource type="Texture2D" uid="uid://drqvdvnqv7a0b" path="res://Asset/Characters/NPC/Texture/Emissive.png" id="3_24ygc"]
-[ext_resource type="Texture2D" uid="uid://cnwanlgf3fx4a" path="res://Asset/Characters/NPC/Texture/MetallicSmoothness.png" id="4_hotk5"]
-[ext_resource type="Texture2D" uid="uid://drrs0v42gc8xw" path="res://Asset/Characters/NPC/Texture/Normal.png" id="5_uglvw"]
+[ext_resource type="Texture2D" uid="uid://devc6o43ofdij" path="res://media/Characters/NPC/Texture/Base.png" id="1_ipdtc"]
+[ext_resource type="Texture2D" uid="uid://cs7ne6cy8d3tu" path="res://media/Characters/NPC/Texture/AO.png" id="2_7sgtd"]
+[ext_resource type="Texture2D" uid="uid://drqvdvnqv7a0b" path="res://media/Characters/NPC/Texture/Emissive.png" id="3_24ygc"]
+[ext_resource type="Texture2D" uid="uid://cnwanlgf3fx4a" path="res://media/Characters/NPC/Texture/MetallicSmoothness.png" id="4_hotk5"]
+[ext_resource type="Texture2D" uid="uid://drrs0v42gc8xw" path="res://media/Characters/NPC/Texture/Normal.png" id="5_uglvw"]
 
 [resource]
 albedo_texture = ExtResource("1_ipdtc")

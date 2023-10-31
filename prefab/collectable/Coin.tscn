@@ -57,7 +57,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_henp0")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_3mokt"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_xlu38"]
 radius = 0.794727
 
 [sub_resource type="Animation" id="Animation_pmqps"]
@@ -189,7 +189,7 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.598305, 0)
-shape = SubResource("SphereShape3D_3mokt")
+shape = SubResource("SphereShape3D_xlu38")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../VisualCoin")
